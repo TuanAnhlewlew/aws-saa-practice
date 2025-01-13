@@ -1,0 +1,5 @@
+{
+    "name": "AWS SAA practice codespace",
+    "image": "mcr.microsoft.com/devcontainers/python:3.10",
+    "onCreateCommand": "echo 'Running setup on first Codespace launch' && ./setup.sh"
+}
