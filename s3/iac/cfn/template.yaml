@@ -1,0 +1,5 @@
+Description: template iac
+Resources:
+  S3Bucket:
+    Type: 'AWS::S3::Bucket'
+    #random name will be generate 

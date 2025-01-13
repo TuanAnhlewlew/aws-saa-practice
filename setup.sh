@@ -2,40 +2,40 @@ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip
 unzip awscliv2.zip
 sudo ./aws/install
 
-sudo apt jq
+sudo apt install jq
 
-sudo apt tree
+sudo apt install tree
 
-#https://learn.microsoft.com/en-us/powershell/scripting/install/install-ubuntu?view=powershell-7.4
-###################################
-# Prerequisites
+# #https://learn.microsoft.com/en-us/powershell/scripting/install/install-ubuntu?view=powershell-7.4
+# ###################################
+# # Prerequisites
 
-# Update the list of packages
-sudo apt-get update
+# # Update the list of packages
+# sudo apt-get update
 
-# Install pre-requisite packages.
-sudo apt-get install -y wget apt-transport-https software-properties-common
+# # Install pre-requisite packages.
+# sudo apt-get install -y wget apt-transport-https software-properties-common
 
-# Get the version of Ubuntu
-source /etc/os-release
+# # Get the version of Ubuntu
+# source /etc/os-release
 
-# Download the Microsoft repository keys
-wget -q https://packages.microsoft.com/config/ubuntu/$VERSION_ID/packages-microsoft-prod.deb
+# # Download the Microsoft repository keys
+# wget -q https://packages.microsoft.com/config/ubuntu/$VERSION_ID/packages-microsoft-prod.deb
 
-# Register the Microsoft repository keys
-sudo dpkg -i packages-microsoft-prod.deb
+# # Register the Microsoft repository keys
+# sudo dpkg -i packages-microsoft-prod.deb
 
-# Delete the Microsoft repository keys file
-rm packages-microsoft-prod.deb
+# # Delete the Microsoft repository keys file
+# rm packages-microsoft-prod.deb
 
-# Update the list of packages after we added packages.microsoft.com
-sudo apt-get update
+# # Update the list of packages after we added packages.microsoft.com
+# sudo apt-get update
 
-###################################
-# Install PowerShell
-sudo apt-get install -y powershell
+# ###################################
+# # Install PowerShell
+# sudo apt-get install -y powershell
 
-# Start PowerShell
-pwsh
+# # Start PowerShell
+# pwsh
 
 export AWS_CLI_AUTO_PROMPT=on-partial
