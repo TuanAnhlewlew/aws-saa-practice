@@ -1,0 +1,21 @@
+#!/usr/bin/env bash 
+
+set -e
+
+echo "Delete bucket"
+
+if [ -z "$1" ]; then
+    echo "No bucket name"
+    exit 1
+fi
+
+BUCKET_NAME=$1
+
+DELETE_JSON="/tmp/delete.json"
+
+aws s3api list-objects \
+--bucket $BUCKET_NAME \
+--query Contents[].Key \
+| jq -n "{Objects: [input | .[] | {Key: .}]}" > $DELETE_JSON
+
+aws s3api delete-objects --bucket $BUCKET_NAME --delete "file:///$DELETE_JSON"
