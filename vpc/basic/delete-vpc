@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -e
 
 if [ -z "$1" ]; then
     echo "No VPC id"
@@ -8,4 +9,25 @@ fi
 
 VPC_ID=$1
 
+#delete subnets
+for subnet in $(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$VPC_ID" --query "Subnets[*].SubnetId" --output text); do
+  aws ec2 delete-subnet --subnet-id $subnet
+  echo "Deleted subnet: $subnet"
+done
+
+#delete IGW
+IGW_ID=$(aws ec2 describe-internet-gateways \
+--filters "Name=attachment.vpc-id,Values=$VPC_ID" \
+--query "InternetGateways[*].InternetGatewayId" \
+--output text)
+
+aws ec2 detach-internet-gateway --internet-gateway-id $IGW_ID --vpc-id $VPC_ID
+aws ec2 delete-internet-gateway \
+--internet-gateway-id $IGW_ID
+
+echo "Datached and Deleted IGW: $IGW_ID"
+
+#delete VPC
 aws ec2 delete-vpc --vpc-id $VPC_ID
+
+echo "Deleted VPC: $VPC_ID"
