@@ -2,11 +2,18 @@
 
 set -e
 
+if [ -z "$1" ]; then
+    echo "No prefix resource name"
+    exit 1
+fi
+
+PREFIX=$1
+
 # create VPC
 VPC_ID=$(aws ec2 create-vpc \
 --cidr-block "172.1.0.0/16" \
 --region ap-southeast-1 \
---tag-specifications 'ResourceType=vpc, Tags=[{Key=Name, Value=chester-vpc}]' \
+--tag-specifications "ResourceType=vpc, Tags=[{Key=Name, Value=$PREFIX-vpc}]" \
 --query Vpc.VpcId \
 --output text)
 
@@ -19,7 +26,7 @@ aws ec2 modify-vpc-attribute \
 
 # create IGW
 IGW_ID=$(aws ec2 create-internet-gateway \
---tag-specifications 'ResourceType=internet-gateway, Tags=[{Key=Name, Value=chester-igw}]' \
+--tag-specifications "ResourceType=internet-gateway, Tags=[{Key=Name, Value=$PREFIX-igw}]" \
 --query InternetGateway.InternetGatewayId \
 --output text)
 
@@ -34,7 +41,7 @@ aws ec2 attach-internet-gateway \
 SUBNET_ID1=$(aws ec2 create-subnet \
 --vpc-id $VPC_ID \
 --cidr-block "172.1.0.0/24" \
---tag-specifications 'ResourceType=subnet, Tags=[{Key=Name, Value=chester-subnet-01}]' \
+--tag-specifications "ResourceType=subnet, Tags=[{Key=Name, Value=$PREFIX-subnet-01}]" \
 --query Subnet.SubnetId \
 --output text)
 
@@ -48,7 +55,7 @@ echo $SUBNET_ID1
 SUBNET_ID2=$(aws ec2 create-subnet \
 --vpc-id $VPC_ID \
 --cidr-block "172.1.1.0/24" \
---tag-specifications 'ResourceType=subnet, Tags=[{Key=Name, Value=chester-subnet-02}]' \
+--tag-specifications "ResourceType=subnet, Tags=[{Key=Name, Value=$PREFIX-subnet-02}]" \
 --query Subnet.SubnetId \
 --output text)
 
