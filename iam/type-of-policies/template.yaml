@@ -1,0 +1,32 @@
+Resources:
+  MyUser:
+    Type: AWS::IAM::User
+    Properties:
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/job-function/ViewOnlyAccess
+  MyInlinePolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 
+              - 'ec2:*'
+            Resource: '*'
+      PolicyName: MyInlinePolicy
+      Users:
+        - Ref: MyUser
+  MySecondPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 
+              - 's3:*'
+            Resource: '*'
+      PolicyName: My2ndInlinePolicy
+      Users:
+        - !Ref MyUser
